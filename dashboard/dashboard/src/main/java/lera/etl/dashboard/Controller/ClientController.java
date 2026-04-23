@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lera.etl.dashboard.Constants.Transformers.ClientListingDTO;
 import lera.etl.dashboard.Models.Client;
-import lera.etl.dashboard.Models.Enclosure;
 import lera.etl.dashboard.Service.ClientService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

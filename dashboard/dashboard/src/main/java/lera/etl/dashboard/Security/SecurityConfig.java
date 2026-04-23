@@ -1,8 +1,8 @@
 package lera.etl.dashboard.Security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,12 +28,12 @@ public class SecurityConfig {
     public InMemoryUserDetailsManager userDetailsService(PasswordEncoder encoder){
         return new InMemoryUserDetailsManager(
             User.withUsername("Lera\\Jyothi")
-            .password(encoder.encode("Lera#etl@3415"))
+            .password(encoder.encode("Lera@123"))
             .roles("ADMIN")
             .build(),
             
         User.withUsername("Lera\\Risha")
-            .password(encoder.encode("Lera@qwerty123"))
+            .password(encoder.encode("Lera@123"))
             .roles("ADMIN")
             .build()
         );
@@ -41,9 +41,20 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception{
-        http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable)
+        .formLogin(AbstractHttpConfigurer::disable) 
+    .httpBasic(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((auth)-> auth
-       .requestMatchers("/login").permitAll()
+        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+       .requestMatchers("/", 
+          "/index.html",
+          "/app.js",
+          "/styles.css",
+          "/**/*.js",
+          "/**/*.css",
+          "/**/*.html",
+          "/assets/**",
+        "/login").permitAll()
        .anyRequest().authenticated())
        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

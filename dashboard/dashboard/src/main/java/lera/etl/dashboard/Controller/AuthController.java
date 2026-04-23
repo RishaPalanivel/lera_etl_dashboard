@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lera.etl.dashboard.Models.User;
 import lera.etl.dashboard.Security.JwtUtils;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -25,8 +26,11 @@ public class AuthController {
     @Autowired
     public JwtUtils jwtUtil;
 
+    @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/login")
     public ResponseEntity<?> userLoginController(@RequestBody User userBody) {
+        System.out.println("sdoucnaisucaw");
+        System.out.println(userBody.getUserName());
         String userName = userBody.getUserName();
         if (userName.isEmpty()) {
             return new ResponseEntity<String>("User not Registered", HttpStatus.UNAUTHORIZED);
@@ -37,14 +41,13 @@ public class AuthController {
 
         String actualUsername = authentication.getName();
 
-    if(actualUsername.equals(userName)){
-        String token = jwtUtil.generateToken(actualUsername);
-    
-        return ResponseEntity.ok(Map.of("token", token));
-    }
-    else{
-         return new ResponseEntity<String>("Invalid User", HttpStatus.UNAUTHORIZED);
-    }
+        if (actualUsername.equals(userName)) {
+            String token = jwtUtil.generateToken(actualUsername);
+
+            return ResponseEntity.ok(Map.of("token", token));
+        } else {
+            return new ResponseEntity<String>("Invalid User", HttpStatus.UNAUTHORIZED);
+        }
     }
 
 }

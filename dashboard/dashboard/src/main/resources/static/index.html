@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lera ETL - Client Management Portal</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- =================== LOGIN PAGE =================== -->
+  <div id="page-login" class="page active">
+    <!-- Left Panel: Branding / Hero -->
+    <div class="login-hero">
+      <div class="login-hero-overlay"></div>
+      <div class="login-hero-content">
+        <div class="login-hero-logo">
+          <!-- <svg width="44" height="44" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="36" height="36" rx="10" fill="rgba(255,255,255,0.2)"/>
+            <path d="M9 10h6v16H9zM21 10h6v6h-6zM21 20h6v6h-6z" fill="white"/>
+          </svg> -->
+          <img src="../assets/Leralogo.png" alt="LeraLogo">
+        </div>
+        <p class="login-hero-welcome">Welcome to</p>
+        <h1 class="login-hero-title">Lera ETL Client Management Portal</h1>
+        <p class="login-hero-sub">Centralized client management dashboard and<br />deployment tracking platform.</p>
+      </div>
+      <div class="login-hero-footer">© 2026 Lera ETL · Secure Access</div>
+    </div>
+
+    <!-- Right Panel: Form -->
+    <div class="login-form-panel">
+      <div class="login-card">
+        <div class="login-form-header">
+          <h2 class="login-heading">Sign in with your account</h2>
+        </div>
+        <div id="login-error" class="alert alert-error hidden"></div>
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" placeholder="Enter your username" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="input-password-wrap">
+            <input type="password" id="login-password" placeholder="Enter your password"
+              autocomplete="current-password" />
+            <button class="btn-icon password-toggle" onclick="togglePassword()" title="Show/hide password">
+              <svg id="eye-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-full" id="login-btn" onclick="handleLogin()">
+          <span class="btn-text">Sign In</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+        <p class="login-help-link">
+          Need help?
+          <a href="mailto:risha.palanivel@lera.us">Contact Admin</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== HOME / CLIENT LIST PAGE =================== -->
+  <div id="page-home" class="page hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">
+          <!-- <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="#1A56DB" />
+            <path d="M9 10h6v16H9zM21 10h6v6h-6zM21 20h6v6h-6z" fill="white" />
+          </svg> -->
+          <img src="../assets/LeraL.png" alt="LeraLogo">
+        </div>
+        <div>
+          <div class="sidebar-brand-name">Lera ETL</div>
+          <div class="sidebar-brand-sub">Dashboard</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" onclick="showPage('home')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          Clients
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="user-avatar" id="sidebar-avatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-username">User</div>
+            <div class="user-role">Administrator</div>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()" title="Logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Lera ETL Dashboard</h1>
+          <p class="page-subtitle">Client Management Portal</p>
+        </div>
+      </div>
+
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-label">Total Clients</div>
+          <div class="stat-value" id="total-clients">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active</div>
+          <div class="stat-value accent" id="active-clients">0</div>
+        </div>
+        <div class="stat-card stat-card-action">
+          <button class="btn btn-primary" onclick="openAddClientModal()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Add Client
+          </button>
+        </div>
+      </div>
+
+      <div id="home-alert" class="alert hidden"></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>All Clients</h3>
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" id="client-search" placeholder="Search clients..." oninput="filterClients()" />
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table" id="clients-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Client Name</th>
+                <th>T24 Version</th>
+                <th>ETL Version</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="clients-tbody">
+              <tr>
+                <td colspan="6" class="table-empty">Loading clients...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- =================== CLIENT DETAIL PAGE =================== -->
+  <div id="page-client" class="page hidden">
+    <!-- Sidebar (duplicate for consistent layout) -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">
+          <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+            <rect width="36" height="36" rx="10" fill="#1A56DB" />
+            <path d="M9 10h6v16H9zM21 10h6v6h-6zM21 20h6v6h-6z" fill="white" />
+          </svg>
+        </div>
+        <div>
+          <div class="sidebar-brand-name">Lera ETL</div>
+          <div class="sidebar-brand-sub">Dashboard</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item" onclick="showPage('home'); return false;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          Clients
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="user-avatar" id="sidebar-avatar-2">U</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebar-username-2">User</div>
+            <div class="user-role">Administrator</div>
+          </div>
+        </div>
+        <button class="btn-logout" onclick="handleLogout()" title="Logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+          Logout
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="#" onclick="showPage('home'); return false;" class="breadcrumb-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+          </svg>
+          Clients
+        </a>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6" />
+        </svg>
+        <span id="breadcrumb-client-name">Client Details</span>
+      </div>
+
+      <div class="client-detail-layout">
+        <!-- LEFT: Client Details (3/4) -->
+        <div class="client-detail-left">
+          <!-- Client Header Card -->
+          <div class="card client-header-card">
+            <div class="client-header-info">
+              <div class="client-avatar-lg" id="detail-avatar">C</div>
+              <div class="client-header-meta">
+                <h2 id="detail-client-name">Client Name</h2>
+                <div class="version-badges" id="version-view-row">
+                  <span class="badge badge-blue">T24: <span id="detail-t24">—</span></span>
+                  <span class="badge badge-green">ETL: <span id="detail-etl">—</span></span>
+                  <button class="btn btn-outline btn-sm version-edit-btn" onclick="openVersionEdit()">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                    Edit Versions
+                  </button>
+                </div>
+                <div class="version-edit-row hidden" id="version-edit-row">
+                  <div class="version-edit-field">
+                    <label>T24 Version</label>
+                    <select id="edit-t24-version">
+                      <option value="R19">R19</option>
+                      <option value="R20">R20</option>
+                      <option value="R21">R21</option>
+                      <option value="R22">R22</option>
+                      <option value="R23">R23</option>
+                      <option value="R24">R24</option>
+                    </select>
+                  </div>
+                  <div class="version-edit-field">
+                    <label>ETL Version</label>
+                    <select id="edit-etl-version">
+                      <option value="1.0.0">1.0.0</option>
+                      <option value="1.1.0">1.1.0</option>
+                      <option value="1.2.0">1.2.0</option>
+                      <option value="2.0.0">2.0.0</option>
+                      <option value="2.1.0">2.1.0</option>
+                      <option value="2.2.0">2.2.0</option>
+                      <option value="2.3.0">2.3.0</option>
+                      <option value="2.4.0">2.4.0</option>
+                    </select>
+                  </div>
+                  <div class="version-edit-actions">
+                    <button class="btn btn-primary btn-sm" onclick="saveVersionEdit()">Save</button>
+                    <button class="btn btn-ghost btn-sm" onclick="cancelVersionEdit()">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab('vpn')">VPN Details</button>
+            <button class="tab-btn" onclick="switchTab('env')">Environment Details</button>
+            <button class="tab-btn" onclick="switchTab('deploy')">Deployment Details</button>
+          </div>
+
+          <!-- VPN Tab -->
+          <div id="tab-vpn" class="tab-content active card">
+            <div class="tab-section-header">
+              <h4>VPN Configuration</h4>
+              <button class="btn btn-outline btn-sm" id="vpn-edit-btn" onclick="toggleEdit('vpn')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+                Edit
+              </button>
+            </div>
+            <textarea id="vpn-textarea" class="detail-textarea" placeholder="Enter VPN configuration details here..."
+              readonly></textarea>
+            <div class="tab-actions hidden" id="vpn-save-row">
+              <button class="btn btn-primary btn-sm" onclick="saveVPN()">Save VPN Details</button>
+              <button class="btn btn-ghost btn-sm" onclick="cancelEdit('vpn')">Cancel</button>
+            </div>
+            <div id="vpn-alert" class="alert hidden mt-sm"></div>
+          </div>
+
+          <!-- ENV Tab -->
+          <div id="tab-env" class="tab-content hidden card">
+            <div class="tab-section-header">
+              <h4>Environment Configuration</h4>
+              <button class="btn btn-outline btn-sm" id="env-edit-btn" onclick="toggleEdit('env')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+                Edit
+              </button>
+            </div>
+            <textarea id="env-textarea" class="detail-textarea"
+              placeholder="Enter environment configuration details here..." readonly></textarea>
+            <div class="tab-actions hidden" id="env-save-row">
+              <button class="btn btn-primary btn-sm" onclick="saveEnv()">Save Environment Details</button>
+              <button class="btn btn-ghost btn-sm" onclick="cancelEdit('env')">Cancel</button>
+            </div>
+            <div id="env-alert" class="alert hidden mt-sm"></div>
+          </div>
+
+          <!-- DEPLOY Tab -->
+          <!-- <div id="tab-deploy" class="tab-content hidden card">
+            <h4 class="tab-section-title">Deployment Details</h4>
+            <div class="deploy-grid">
+              <div class="deploy-field">
+                <label>Deployment Environment</label>
+                <input type="text" id="deploy-env" placeholder="e.g. Production, Staging..." />
+              </div>
+              <div class="deploy-field">
+                <label>Deployment Status</label>
+                <select id="deploy-status">
+                  <option value="">Select Status</option>
+                  <option value="DEPLOYED">Deployed</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="FAILED">Failed</option>
+                  <option value="ROLLED_BACK">Rolled Back</option>
+                </select>
+              </div>
+              <div class="deploy-field">
+                <label>Deployed On</label>
+                <input type="date" id="deploy-date" />
+              </div>
+              <div class="deploy-field">
+                <label>Testing Status</label>
+                <select id="testing-status">
+                  <option value="">Select Status</option>
+                  <option value="PASSED">Passed</option>
+                  <option value="FAILED">Failed</option>
+                  <option value="IN_PROGRESS">In Progress</option>
+                  <option value="NOT_STARTED">Not Started</option>
+                  <option value="SKIPPED">Skipped</option>
+                </select>
+              </div>
+              <div class="deploy-field full-width">
+                <label>T24 Packs</label>
+                <div class="inline-edit-row">
+                  <input type="text" id="t24-packs" placeholder="Enter T24 pack details..." />
+                  <button class="btn btn-primary btn-sm" onclick="saveT24Packs()">Save Packs</button>
+                </div>
+              </div>
+            </div>
+            <div class="tab-actions mt-md">
+              <button class="btn btn-primary" onclick="saveDeployment()">Save Deployment Details</button>
+            </div>
+            <div id="deploy-alert" class="alert hidden mt-sm"></div>
+          </div> -->
+          <div id="tab-deploy" class="tab-content hidden card">
+            <div class="tab-section-header">
+              <h4>Deployment Details</h4>
+              <button class="btn btn-outline btn-sm" onclick="openDeploymentModal()">
+                Edit
+              </button>
+            </div>
+
+            <div class="deploy-view">
+              <div class="deploy-info-grid">
+                <div class="deploy-info-card">
+                  <div class="deploy-info-icon deploy-icon-env">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="3" width="20" height="14" rx="2" />
+                      <path d="M8 21h8M12 17v4" />
+                    </svg>
+                  </div>
+                  <div class="deploy-info-body">
+                    <div class="deploy-info-label">Environment</div>
+                    <div class="deploy-info-value" id="view-deploy-env">—</div>
+                  </div>
+                </div>
+                <div class="deploy-info-card">
+                  <div class="deploy-info-icon deploy-icon-status">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                  </div>
+                  <div class="deploy-info-body">
+                    <div class="deploy-info-label">Deployment Status</div>
+                    <div class="deploy-info-value" id="view-deploy-status">—</div>
+                  </div>
+                </div>
+                <div class="deploy-info-card">
+                  <div class="deploy-info-icon deploy-icon-date">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="4" width="18" height="18" rx="2" />
+                      <line x1="16" y1="2" x2="16" y2="6" />
+                      <line x1="8" y1="2" x2="8" y2="6" />
+                      <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                  </div>
+                  <div class="deploy-info-body">
+                    <div class="deploy-info-label">Deployed On</div>
+                    <div class="deploy-info-value" id="view-deploy-date">—</div>
+                  </div>
+                </div>
+                <div class="deploy-info-card">
+                  <div class="deploy-info-icon deploy-icon-test">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline points="9 11 12 14 22 4" />
+                      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                    </svg>
+                  </div>
+                  <div class="deploy-info-body">
+                    <div class="deploy-info-label">Testing Status</div>
+                    <div class="deploy-info-value" id="view-testing-status">—</div>
+                  </div>
+                </div>
+              </div>
+              <div class="deploy-packs-card">
+                <div class="deploy-info-icon deploy-icon-packs">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                  </svg>
+                </div>
+                <div class="deploy-info-body">
+                  <div class="deploy-info-label">T24 Packs</div>
+                  <div class="deploy-info-value deploy-packs-value" id="view-t24-packs">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Enclosures (wider) -->
+        <div class="client-detail-right">
+          <div class="card enclosure-card">
+            <div class="enclosure-header">
+              <h4>Enclosures</h4>
+              <span class="enclosure-count" id="enclosure-count">0</span>
+            </div>
+
+            <button class="btn btn-primary btn-full mb-md" onclick="openPostEnclosureModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Post Enclosure
+            </button>
+
+            <div id="enclosure-list" class="enclosure-list">
+              <div class="enclosure-empty">No enclosures yet</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- =================== MODALS =================== -->
+
+  <!-- Add Client Modal -->
+  <div id="modal-add-client" class="modal-overlay hidden" onclick="closeModalOnOverlay(event, 'modal-add-client')">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add New Client</h3>
+        <button class="btn-icon" onclick="closeModal('modal-add-client')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="add-client-alert" class="alert hidden"></div>
+        <div class="form-group">
+          <label>Client Name <span class="required">*</span></label>
+          <input type="text" id="new-client-name" placeholder="Enter client name" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>T24 Version <span class="required">*</span></label>
+            <select id="new-t24-version">
+              <option value="">Select T24 Version</option>
+              <option value="R19">R19</option>
+              <option value="R20">R20</option>
+              <option value="R21">R21</option>
+              <option value="R22">R22</option>
+              <option value="R23">R23</option>
+              <option value="R24">R24</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ETL Version <span class="required">*</span></label>
+            <select id="new-etl-version">
+              <option value="">Select ETL Version</option>
+              <option value="1.0.0">1.0.0</option>
+              <option value="1.1.0">1.1.0</option>
+              <option value="1.2.0">1.2.0</option>
+              <option value="2.0.0">2.0.0</option>
+              <option value="2.1.0">2.1.0</option>
+              <option value="2.2.0">2.2.0</option>
+              <option value="2.3.0">2.3.0</option>
+              <option value="2.4.0">2.4.0</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('modal-add-client')">Cancel</button>
+        <button class="btn btn-primary" onclick="handleAddClient()">
+          <span class="btn-text">Add Client</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post Enclosure Modal -->
+  <div id="modal-enclosure" class="modal-overlay hidden" onclick="closeModalOnOverlay(event, 'modal-enclosure')">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Post Enclosure</h3>
+        <button class="btn-icon" onclick="closeModal('modal-enclosure')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="enclosure-alert" class="alert hidden"></div>
+        <div class="form-group">
+          <label>Comment <span class="required">*</span></label>
+          <textarea id="enclosure-comment" placeholder="Enter your enclosure comment..." rows="5"
+            class="detail-textarea" style="min-height:120px;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('modal-enclosure')">Cancel</button>
+        <button class="btn btn-primary" onclick="handlePostEnclosure()">
+          <span class="btn-text">Post Enclosure</span>
+          <span class="btn-spinner hidden"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Confirm Modal -->
+  <div id="modal-delete" class="modal-overlay hidden" onclick="closeModalOnOverlay(event, 'modal-delete')">
+    <div class="modal modal-sm">
+      <div class="modal-header">
+        <h3>Delete Client</h3>
+        <button class="btn-icon" onclick="closeModal('modal-delete')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="delete-warning">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          <p>Are you sure you want to delete <strong id="delete-client-name-confirm">this client</strong>? This action
+            cannot be undone.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('modal-delete')">Cancel</button>
+        <button class="btn btn-danger" onclick="confirmDelete()">Delete Client</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden">
+    <svg class="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+    <span id="toast-msg">Action completed</span>
+  </div>
+
+  <!-- Edit Deployment Details Modals -->
+  <div id="modal-deployment" class="modal-overlay hidden" onclick="closeModalOnOverlay(event, 'modal-deployment')">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Edit Deployment Details</h3>
+        <button class="btn-icon" onclick="closeModal('modal-deployment')">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Deployment Environment</label>
+          <input type="text" id="modal-deploy-env" />
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select id="modal-deploy-status">
+            <option value="DEPLOYED">Deployed</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="NOT_INITIATED">Not Initiated</option>
+            <option value="FAILED">Failed</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Deployed On</label>
+          <input type="date" id="modal-deploy-date" />
+        </div>
+
+        <div class="form-group">
+          <label>Testing Status</label>
+          <select id="modal-testing-status">
+            <option value="NOT_INITIATED">Not Initiated</option>
+            <option value="IN_ANALYSIS">In Analysis</option>
+            <option value="FUNCTIONAL">Functional</option>
+            <option value="FAILED">Failed</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>T24 Packs</label>
+          <input type="text" id="modal-t24-packs" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('modal-deployment')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveDeploymentFromModal()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
