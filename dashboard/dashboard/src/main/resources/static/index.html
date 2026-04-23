@@ -39,7 +39,7 @@
     <div class="login-form-panel">
       <div class="login-card">
         <div class="login-form-header">
-          <h2 class="login-heading">Sign in with your account</h2>
+          <h2 class="login-heading">Login in with your account</h2>
         </div>
         <div id="login-error" class="alert alert-error hidden"></div>
         <div class="form-group">
@@ -61,7 +61,7 @@
           </div>
         </div>
         <button class="btn btn-primary btn-full" id="login-btn" onclick="handleLogin()">
-          <span class="btn-text">Sign In</span>
+          <span class="btn-text">Login</span>
           <span class="btn-spinner hidden"></span>
         </button>
         <p class="login-help-link">
@@ -78,10 +78,10 @@
     <aside class="sidebar">
       <div class="sidebar-brand">
         <div class="sidebar-logo">
-          <!-- <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-            <rect width="36" height="36" rx="10" fill="#1A56DB" />
-            <path d="M9 10h6v16H9zM21 10h6v6h-6zM21 20h6v6h-6z" fill="white" />
-          </svg> -->
+          <!-- <svg width="28" height="28" viewBox="0 0 36 36" fill="none"> -->
+          <!-- <rect width="36" height="36" rx="10" fill="#1A56DB" /> -->
+          <!-- <path d="M9 10h6v16H9zM21 10h6v6h-6zM21 20h6v6h-6z" fill="white" /> -->
+          <!-- </svg> -->
           <img src="../assets/LeraL.png" alt="LeraLogo">
         </div>
         <div>
@@ -137,6 +137,8 @@
           <div class="stat-label">Active</div>
           <div class="stat-value accent" id="active-clients">0</div>
         </div>
+        <div class="sized-box">
+        </div>
         <div class="stat-card stat-card-action">
           <button class="btn btn-primary" onclick="openAddClientModal()">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -165,12 +167,12 @@
           <table class="data-table" id="clients-table">
             <thead>
               <tr>
-                <th>#</th>
-                <th>Client Name</th>
+                <th>S.No</th>
+                <th>Clients</th>
                 <th>T24 Version</th>
                 <th>ETL Version</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody id="clients-tbody">
@@ -258,39 +260,51 @@
               <div class="client-header-meta">
                 <h2 id="detail-client-name">Client Name</h2>
                 <div class="version-badges" id="version-view-row">
-                  <span class="badge badge-blue">T24: <span id="detail-t24">—</span></span>
-                  <span class="badge badge-green">ETL: <span id="detail-etl">—</span></span>
+                  <div class="versions-right">
+                  <span class="badge badge-blue">T24 Version: <span id="detail-t24">—</span></span>
+                  <span class="badge badge-green">ETL Version: <span id="detail-etl">—</span></span>
+                  </div>
                   <button class="btn btn-outline btn-sm version-edit-btn" onclick="openVersionEdit()">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                       <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                     </svg>
-                    Edit Versions
+                    Edit
                   </button>
                 </div>
                 <div class="version-edit-row hidden" id="version-edit-row">
                   <div class="version-edit-field">
                     <label>T24 Version</label>
                     <select id="edit-t24-version">
+                      <option value="R10">R10</option>
+                      <option value="R11">R11</option>
+                      <option value="R12">R12</option>
+                      <option value="R13">R13</option>
+                      <option value="R14">R14</option>
+                      <option value="R15">R15</option>
+                      <option value="R16">R16</option>
+                      <option value="R17">R17</option>
+                      <option value="R18">R18</option>
                       <option value="R19">R19</option>
                       <option value="R20">R20</option>
                       <option value="R21">R21</option>
                       <option value="R22">R22</option>
                       <option value="R23">R23</option>
                       <option value="R24">R24</option>
+                      <option value="R25">R25</option>
+                      <option value="R26">R26</option>
+                      <option value="R27">R27</option>
+                      <option value="R28">R28</option>
+                      <option value="R29">R29</option>
+                      <option value="R30">R30</option>
                     </select>
                   </div>
                   <div class="version-edit-field">
                     <label>ETL Version</label>
                     <select id="edit-etl-version">
-                      <option value="1.0.0">1.0.0</option>
-                      <option value="1.1.0">1.1.0</option>
-                      <option value="1.2.0">1.2.0</option>
-                      <option value="2.0.0">2.0.0</option>
-                      <option value="2.1.0">2.1.0</option>
-                      <option value="2.2.0">2.2.0</option>
-                      <option value="2.3.0">2.3.0</option>
-                      <option value="2.4.0">2.4.0</option>
+                      <option value="Eficaz">Eficaz</option>
+                      <option value="T24-9X">T24-9X</option>
+                      <option value="T24-9X-GP">T24-9X-GP</option>
                     </select>
                   </div>
                   <div class="version-edit-actions">
@@ -525,26 +539,36 @@
             <label>T24 Version <span class="required">*</span></label>
             <select id="new-t24-version">
               <option value="">Select T24 Version</option>
+              <option value="R10">R10</option>
+              <option value="R11">R11</option>
+              <option value="R12">R12</option>
+              <option value="R13">R13</option>
+              <option value="R14">R14</option>
+              <option value="R15">R15</option>
+              <option value="R16">R16</option>
+              <option value="R17">R17</option>
+              <option value="R18">R18</option>
               <option value="R19">R19</option>
               <option value="R20">R20</option>
               <option value="R21">R21</option>
               <option value="R22">R22</option>
               <option value="R23">R23</option>
               <option value="R24">R24</option>
+              <option value="R25">R25</option>
+              <option value="R26">R26</option>
+              <option value="R27">R27</option>
+              <option value="R28">R28</option>
+              <option value="R29">R29</option>
+              <option value="R30">R30</option>
             </select>
           </div>
           <div class="form-group">
             <label>ETL Version <span class="required">*</span></label>
             <select id="new-etl-version">
               <option value="">Select ETL Version</option>
-              <option value="1.0.0">1.0.0</option>
-              <option value="1.1.0">1.1.0</option>
-              <option value="1.2.0">1.2.0</option>
-              <option value="2.0.0">2.0.0</option>
-              <option value="2.1.0">2.1.0</option>
-              <option value="2.2.0">2.2.0</option>
-              <option value="2.3.0">2.3.0</option>
-              <option value="2.4.0">2.4.0</option>
+              <option value="Eficaz">Eficaz</option>
+              <option value="T24-9X">T24-9X</option>
+              <option value="T24-9X-GP">T24-9X-GP</option>
             </select>
           </div>
         </div>
@@ -662,7 +686,7 @@
           <select id="modal-testing-status">
             <option value="NOT_INITIATED">Not Initiated</option>
             <option value="IN_ANALYSIS">In Analysis</option>
-            <option value="FUNCTIONAL">Functional</option>
+            <option value="EXECUTED_SUCCESSFULLY">Executed Successfully</option>
             <option value="FAILED">Failed</option>
           </select>
         </div>

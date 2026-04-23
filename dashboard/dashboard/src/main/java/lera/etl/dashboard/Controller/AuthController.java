@@ -29,8 +29,6 @@ public class AuthController {
     @CrossOrigin(origins = "http://127.0.0.1:5500")
     @PostMapping("/login")
     public ResponseEntity<?> userLoginController(@RequestBody User userBody) {
-        System.out.println("sdoucnaisucaw");
-        System.out.println(userBody.getUserName());
         String userName = userBody.getUserName();
         if (userName.isEmpty()) {
             return new ResponseEntity<String>("User not Registered", HttpStatus.UNAUTHORIZED);

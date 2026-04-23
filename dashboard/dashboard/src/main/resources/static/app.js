@@ -423,9 +423,9 @@ function populateClientDetail(client) {
   // Deployment fields
   const d = client.deployment || {};
   document.getElementById('view-deploy-env').textContent = d.deploymentEnv || '—';
-  document.getElementById('view-deploy-status').textContent = d.deploymentStatus || '—';
+  document.getElementById('view-deploy-status').textContent = formatStatus(d.deploymentStatus) || '—';
   document.getElementById('view-deploy-date').textContent = d.deployedOn || '—';
-  document.getElementById('view-testing-status').textContent = d.testingstatus || '—';
+  document.getElementById('view-testing-status').textContent = formatStatus(d.testingstatus) || '—';
   document.getElementById('view-t24-packs').textContent = d.t24Packs || '—';
   // document.getElementById('deploy-env').value = d.deploymentEnv || '';
   // document.getElementById('deploy-status').value = d.deploymentStatus || '';
@@ -731,6 +731,17 @@ function renderEnclosures(enclosures) {
 // ─────────────────────────────────────────────
 //  UTILITIES
 // ─────────────────────────────────────────────
+
+function formatStatus(text) {
+  if (!text) return '—';
+
+  return text
+    .toLowerCase()
+    .split('_')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 function escHtml(str) {
   if (!str) return '';
   return String(str)
